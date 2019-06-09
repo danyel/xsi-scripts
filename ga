@@ -5,4 +5,4 @@
 echo "Application Name: "
 read applicationName
 
-mkdir -p $USER_HOME/$applicationName/{bin,jre,config,data,sys-data}
+mkdir -p $USER_HOME/$applicationName/{bin,config,data,sys-data}
