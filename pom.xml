@@ -12,7 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>be.urpi.software.xsi.node</groupId>
     <artifactId>node-scripts</artifactId>
-    <version>19.6.1-SNAPSHOT</version>
+    <version>19.6.1</version>
 
     <modules>
         <module>spring-boot</module>
