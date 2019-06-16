@@ -11,8 +11,8 @@ SCRIPT_HOME=$USER_HOME/scripts
 NEXUS_URL=http://10.0.1.34:8081/nexus
 BASH_RC=$USER_HOME/.bashrc
 WORK_SPACE=$USER_HOME/workspace
-BOOSTRAP_VERSION=
-BOOSTRAP_URL="$NEXUS_URL/service/local/repositories/releases/content/be/urpi/software/xsi/node/main-script/$BOOSTRAP_VERSION/main-script-$BOOSTRAP_VERSION.zip"
+BOOTSTRAP_VERSION=
+BOOTSTRAP_URL="$NEXUS_URL/service/local/repositories/releases/content/be/urpi/software/xsi/node/main-script/$BOOTSTRAP_VERSION/main-script-$BOOTSTRAP_VERSION.zip"
 
 ######################
 # FUNCTIONS
@@ -26,7 +26,7 @@ function set_environments {
 
 function set_nexus_environment {
     WORK_SPACE=$USER_HOME/workspace
-    BOOSTRAP_URL="$NEXUS_URL/service/local/repositories/snapshot/content/be/urpi/software/xsi/node/main-script/$BOOSTRAP_VERSION/main-script-$BOOSTRAP_VERSION.zip"
+    BOOTSTRAP_URL="$NEXUS_URL/service/local/repositories/releases/content/be/urpi/software/xsi/node/main-script/$BOOTSTRAP_VERSION/main-script-$BOOTSTRAP_VERSION.zip"
 }
 function set_user {
     user=$1
@@ -58,20 +58,16 @@ function init_workspace {
 }
 
 function update_installer {
-    BOOSTRAP_VERSION=$2
+    BOOTSTRAP_VERSION=$2
     set_nexus_environment
     echo $1
     echo $2
     set_environments
     init_workspace
     cd $WORK_SPACE
-    wget $BOOSTRAP_URL
-    scriptName="main-script-$BOOSTRAP_VERSION.zip"
+    wget $BOOTSTRAP_URL
+    scriptName="main-script-$BOOTSTRAP_VERSION.zip"
     unzip $scriptName
-}
-
-function help {
-    echo "usage: installer -u [updating installer]"
 }
 
 function check_parameters {
@@ -82,13 +78,16 @@ function check_parameters {
     fi
 }
 
+function delete_user {
+    sudo userdel
+}
 function screen_options {
     echo "XSI Node install version 19.6.1"
     i=0
 
-    while [ $i -eq 0 ]
+    while [[ ${i} -eq 0 ]]
     do
-        echo "Install (i) or update (u)"
+        echo "Install (i) or update (u) or delete (d)"
         read option1
 
         if [[ "$option1" == "u" ]]; then
@@ -101,13 +100,17 @@ function screen_options {
         elif [[ "$option1" == "i" ]]; then
             echo "install"
             i=1
+        elif [[ "$option1" == "d" ]]; then
+            echo "user:"
+            read user
+
+            i=1
         fi
     done
 }
 function __main__ {
     screen_options
 #    set_user $1 $2
-#    check_parameters $1
 #    make_app_dir
 #    init_user
 #    init_bashrc

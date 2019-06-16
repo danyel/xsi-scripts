@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Generate Application Template Directory
-
-echo "Application Name: "
-read applicationName
-
-mkdir -p $USER_HOME/$applicationName/{bin,config,data,sys-data}
