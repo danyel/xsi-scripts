@@ -21,4 +21,35 @@
         <module>main-script</module>
         <module>boot-strap</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>urpi-nexus</id>
+            <name>urpi-nexus</name>
+            <url>http://10.0.1.34:8081/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <!-- Publish the versioned releases here -->
+        <repository>
+            <id>urpi-nexus</id>
+            <name>urpi nexus</name>
+            <url>http://10.0.1.34:8081/nexus/content/repositories/releases</url>
+        </repository>
+
+        <!-- Publish the versioned releases here -->
+        <snapshotRepository>
+            <id>urpi-nexus</id>
+            <name>urpi nexus</name>
+            <url>http://10.0.1.34:8081/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
