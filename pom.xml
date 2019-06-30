@@ -19,5 +19,6 @@
         <module>main-script</module>
         <module>boot-strap</module>
         <module>hello-world</module>
+        <module>nexus</module>
     </modules>
 </project>
