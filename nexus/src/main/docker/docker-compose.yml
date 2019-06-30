@@ -7,7 +7,7 @@ services:
     ports:
       - 9000:8081
     volumes:
-      - ${NEXUS_DATA}:/nexus-data
+      - ${DOCKER_HOME}${NEXUS_DATA}:/nexus-data
     restart: always
   mail:
     image: tvial/docker-mailserver:latest
@@ -20,9 +20,9 @@ services:
       - "587:587"
       - "993:993"
     volumes:
-      - ${MAIL_DATA}:/var/mail
-      - ~/mail/state:/var/mail-state
-      - ./config/:/tmp/docker-mailserver/
+      - ${DOCKER_HOME}${MAIL_DATA}:/var/mail
+      - ${DOCKER_HOME}${MAIL_STATE}:/var/mail-state
+      - ${DOCKER_HOME}${MAIL_CONFIG}:/tmp/docker-mailserver/
     environment:
       - DMS_DEBUG=${DMS_DEBUG}
       - ENABLE_CLAMAV=${ENABLE_CLAMAV}
@@ -104,7 +104,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ${JOOMLA_DATA}:/var/www/html
+      - ${DOCKER_HOME}${JOOMLA_DATA}:/var/www/html
     environment:
       JOOMLA_DB_HOST: joomladb
       JOOMLA_DB_PASSWORD: ${JOOMLA_DB_PASSWORD}
@@ -112,20 +112,31 @@ services:
       JOOMLA_DB_USER: root
   joomladb:
     image: mysql:5.6
+    container_name: joomladb
     restart: always
     volumes:
-      - ${JOOMLADB_DATA}:/var/lib/mysql
+      - ${DOCKER_HOME}${JOOMLADB_DATA}:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${JOOMLA_DB_PASSWORD}
   gitlab:
     image: 'gitlab/gitlab-ce:latest'
+    container_name: gitlab
     restart: always
     ports:
       - '8080:80'
       - '8443:443'
       - '822:22'
     volumes:
-      - '~/gitlab/config:/etc/gitlab'
-      - '~/gitlab/logs:/var/log/gitlab'
-      - '~/gitlab/data:/var/opt/gitlab'
-
+      - ${DOCKER_HOME}${GITLAB_CONFIG}:/etc/gitlab
+      - ${DOCKER_HOME}${GITLAB_LOGS}:/var/log/gitlab
+      - ${DOCKER_HOME}${GITLAB_DATA}:/var/opt/gitlab
+  jenkins:
+    container_name: ${JENKINS_CONTAINER_NAME}
+    image: jenkins/jenkins:lts
+    ports:
+      - 8090:8080
+      - 5000:5000
+    volumes:
+      - ${DOCKER_HOME}${JENKINS_DATA}/data:/var/jenkins_home
+    environment:
+      JAVA_OPTS: -Dhudson.footerURL=http://urpi.be
