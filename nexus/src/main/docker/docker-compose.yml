@@ -137,6 +137,6 @@ services:
       - 8090:8080
       - 5000:5000
     volumes:
-      - ${DOCKER_HOME}${JENKINS_DATA}/data:/var/jenkins_home
+      - ${DOCKER_HOME}${JENKINS_DATA}:/var/jenkins_home
     environment:
       JAVA_OPTS: -Dhudson.footerURL=http://urpi.be
